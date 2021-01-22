@@ -1,7 +1,7 @@
 <?php
 $API_KEY="1267777641:AAHK93prdCzgO3uHFmRC79c14yg9UmAkYsg";
 define('API_KEY',$API_KEY);
-@function bot($method,$datas=[]){
+function bot($method,$datas=[]){
     $url = "https://api.telegram.org/bot".API_KEY."/".$method;
     $ch = curl_init();
     curl_setopt($ch,CURLOPT_URL,$url);
@@ -12,14 +12,14 @@ define('API_KEY',$API_KEY);
     curl_close($ch);
     return json_decode($res);
 }
-@function getupdates($up_id){
+function getupdates($up_id){
   $get = bot('getupdates',[
     'offset'=>$up_id
   ]);
   return end($get->result);
   
 }
-@function run($update){
+function run($update){
 $modz = "r00t94";
 $ayh = "@r00t94";
 $sudo = "1399282735";
@@ -1421,7 +1421,7 @@ $cc= filter_var($bb[0],FILTER_SANITIZE_STRING);
 $ex= explode("هجرى:",$elias);
 $exx= explode("الصلاة القادمة",$ex[1]);
 $el=explode("باقي:",$elias);
-$ell=explode("@function",$el[1]);
+$ell=explode("function",$el[1]);
 $zrr= explode("\n",$exx[0]);
 //date_hj_mi//
 $a= filter_var($zrr[2],FILTER_SANITIZE_STRING);
@@ -1555,7 +1555,7 @@ _ دوائر العرض 🌀 :- _ $latt
 'parse_mode'=>"markdown"
 ]);
 }
-} //end @function
+} //end function
 
 while(true){
   $last_up = $last_up??0;

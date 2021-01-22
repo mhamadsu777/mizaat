@@ -3,17 +3,23 @@ $API_KEY="1267777641:AAHK93prdCzgO3uHFmRC79c14yg9UmAkYsg";
 define('API_KEY',$API_KEY);
 function bot($method,$datas=[]){
     $url = "https://api.telegram.org/bot".API_KEY."/".$method;
-$ch = curl_init();
+    $ch = curl_init();
     curl_setopt($ch,CURLOPT_URL,$url);
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
     curl_setopt($ch,CURLOPT_POSTFIELDS,$datas);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     $res = curl_exec($ch);
-    if(curl_error($ch)){
-        var_dump(curl_error($ch));
-    }else{
-        return json_decode($res);
-    }
+    curl_close($ch);
+    return json_decode($res);
 }
+function getupdates($up_id){
+  $get = bot('getupdates',[
+    'offset'=>$up_id
+  ]);
+  return end($get->result);
+  
+}
+function run($update){
 $modz = "r00t94";
 $ayh = "@r00t94";
 $sudo = "1399282735";
@@ -1548,4 +1554,13 @@ _ دوائر العرض 🌀 :- _ $latt
 ",
 'parse_mode'=>"markdown"
 ]);
+}
+} //end function
+
+while(true){
+  $last_up = $last_up??0;
+  $get_up = getupdates($last_up+1);
+  $last_up = $get_up->update_id;
+  run($get_up);
+  sleep(1);
 }

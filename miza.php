@@ -19,6 +19,87 @@ function getupdates($up_id){
   return end($get->result);
   
 }
+function insta($txt){
+$curl = curl_init();
+curl_setopt_array($curl, array(
+CURLOPT_URL => "https://www.instaloadgram.com/api/get",
+CURLOPT_RETURNTRANSFER => true,
+CURLOPT_ENCODING => "",
+CURLOPT_MAXREDIRS => 10,
+CURLOPT_TIMEOUT => 0,
+CURLOPT_FOLLOWLOCATION => false,
+CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+CURLOPT_CUSTOMREQUEST => "POST",
+CURLOPT_POSTFIELDS => 'url='.$txt,
+CURLOPT_HTTPHEADER => array(
+"Content-Type: application/x-www-form-urlencoded"
+),
+));
+$response = curl_exec($curl);
+curl_close($curl);
+return json_decode($response)->items[0]->url;
+}
+if(preg_match('/.*instagram\.com.*/i',$text)){
+ bot('sendmessage',[
+  'chat_id'=>$chat_id,
+    'text'=>"- يرجى الانتظار قليلا من فضلك ، 🔱
+- جار التحميل ، قناة البوت ؛ @Wizard_System ،",
+'parse_mode'=>"MarkDown",
+'disable_web_page_preview'=>true,
+    ]);
+bot('sendphoto',[
+ 'chat_id'=>$chat_id,
+  'photo'=>"$text",
+'parse_mode'=>"MarkDown",
+'disable_web_page_preview'=>true,
+    ]);
+ bot('sendvideo',[
+  'chat_id'=>$chat_id,
+   'video'=>insta($text)
+    ]);
+    }
+function GetAge($Date,$c){
+$hours_in_day = 24;
+$minutes_in_hour = 60;
+$seconds_in_mins = 60;
+$birth_date = new DateTime($Date);
+$current_date = new DateTime();
+date_default_timezone_set("Asia/Baghdad");
+$date = date('n');
+$dat = date('j');
+$diff = $birth_date->diff($current_date);
+$years = $diff->y;
+$mn = $diff->m;
+$doy = $diff->d;
+$months = ($diff->y * 12);
+$weeks = floor($diff->days/7); echo "\n";
+$days = $diff->days;
+$hours = $diff->h + ($diff->days * $hours_in_day);
+$mins = $diff->h + ($diff->days * $hours_in_day * $minutes_in_hour);
+$seconds = $diff->h + ($diff->days * $hours_in_day * $minutes_in_hour * $seconds_in_mins);
+bot('Sendmessage',[
+'chat_id'=>$c,
+'text'=>" 💘| تم حساب عمرك بالتفصيل،
+ 
+🌻|عمرك هوا الان : $years سـنةه، و $mn اشهر،
+
+📕| مره عله ولادتك : $months. شهر،
+
+📌| مره عله ولادتك : $weeks. اسبوع،
+
+🔖| مره عله ولادتك : $days. يوم،
+
+📮| مره عله ولادتك : $hours. ساعه،
+
+📯| مره عله ولادتك : $mins. دقيقةه،
+
+📆| مره عله ولادتك : $seconds. ثانيةه،
+",
+]);
+}
+if($text=="/age" and $re){
+GetAge($re->text,$chat_id);
+}
 function run($update){
 $modz = "r00t94";
 $ayh = "@r00t94";
@@ -1347,48 +1428,6 @@ bot('sendMessage',[
 'chat_id'=>$chat_id,'text'=>"🗓 ¦ الشهر { $nmonth }\n📆 ¦ الأسبوع { $today }\n⏰ ¦ الوقت { $times }\n📅 ¦ السنة { $year }",'reply_to_message_id'=>$message->message_id
 ]);
 }
-@function GetAge($Date,$c){
-$hours_in_day = 24;
-$minutes_in_hour = 60;
-$seconds_in_mins = 60;
-$birth_date = new DateTime($Date);
-$current_date = new DateTime();
-date_default_timezone_set("Asia/Baghdad");
-$date = date('n');
-$dat = date('j');
-$diff = $birth_date->diff($current_date);
-$years = $diff->y;
-$mn = $diff->m;
-$doy = $diff->d;
-$months = ($diff->y * 12);
-$weeks = floor($diff->days/7); echo "\n";
-$days = $diff->days;
-$hours = $diff->h + ($diff->days * $hours_in_day);
-$mins = $diff->h + ($diff->days * $hours_in_day * $minutes_in_hour);
-$seconds = $diff->h + ($diff->days * $hours_in_day * $minutes_in_hour * $seconds_in_mins);
-bot('Sendmessage',[
-'chat_id'=>$c,
-'text'=>" 💘| تم حساب عمرك بالتفصيل،
- 
-🌻|عمرك هوا الان : $years سـنةه، و $mn اشهر،
-
-📕| مره عله ولادتك : $months. شهر،
-
-📌| مره عله ولادتك : $weeks. اسبوع،
-
-🔖| مره عله ولادتك : $days. يوم،
-
-📮| مره عله ولادتك : $hours. ساعه،
-
-📯| مره عله ولادتك : $mins. دقيقةه،
-
-📆| مره عله ولادتك : $seconds. ثانيةه،
-",
-]);
-}
-if($text=="/age" and $re){
-GetAge($re->text,$chat_id);
-}
 $re = $message->reply_to_message;
 if($text=="/calc" and $re){
 $rep1 = str_replace('×', '*' , $re->text);
@@ -1458,45 +1497,6 @@ bot('sendmessage',[
 "."\n".$zrr
 ]);
 } 
-@function insta($txt){
-$curl = curl_init();
-curl_setopt_array($curl, array(
-CURLOPT_URL => "https://www.instaloadgram.com/api/get",
-CURLOPT_RETURNTRANSFER => true,
-CURLOPT_ENCODING => "",
-CURLOPT_MAXREDIRS => 10,
-CURLOPT_TIMEOUT => 0,
-CURLOPT_FOLLOWLOCATION => false,
-CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-CURLOPT_CUSTOMREQUEST => "POST",
-CURLOPT_POSTFIELDS => 'url='.$txt,
-CURLOPT_HTTPHEADER => array(
-"Content-Type: application/x-www-form-urlencoded"
-),
-));
-$response = curl_exec($curl);
-curl_close($curl);
-return json_decode($response)->items[0]->url;
-}
-if(preg_match('/.*instagram\.com.*/i',$text)){
- bot('sendmessage',[
-  'chat_id'=>$chat_id,
-    'text'=>"- يرجى الانتظار قليلا من فضلك ، 🔱
-- جار التحميل ، قناة البوت ؛ @Wizard_System ،",
-'parse_mode'=>"MarkDown",
-'disable_web_page_preview'=>true,
-    ]);
-bot('sendphoto',[
- 'chat_id'=>$chat_id,
-  'photo'=>"$text",
-'parse_mode'=>"MarkDown",
-'disable_web_page_preview'=>true,
-    ]);
- bot('sendvideo',[
-  'chat_id'=>$chat_id,
-   'video'=>insta($text)
-    ]);
-    }
     
 if($text=="/profile" and $re){
 $usr = str_replace('@', '' , $re->text);

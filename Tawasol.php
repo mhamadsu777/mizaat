@@ -898,7 +898,7 @@ file_put_contents("bots/$from_id/index.php", '<div dir="rtl" style="text-align: 
 
 ' . "\n");
 
-file_get_contents("https://api.telegram.org/bot$text/setwebhook?url=https://asddff55.ml/bots/$from_id/bot.php");
+file_get_contents("https://api.telegram.org/bot$text/setwebhook?url=https://root.uf0domain.cf/bots/$from_id/bot.php");
 
 }
 
